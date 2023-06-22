@@ -92,6 +92,7 @@ workspace "re3"
 			"win-x86-librw_gl3_glfw-oal",
 			"win-amd64-librw_d3d9-oal",
 			"win-amd64-librw_gl3_glfw-oal",
+	                "win-arm-librw_d3d9_oal"
 		}
 
 	filter { "system:linux" }
