@@ -590,9 +590,6 @@ psInitialize(void)
 	
 	gGameState = GS_START_UP;
 	TRACE("gGameState = GS_START_UP");
-#ifndef _WIN64
-	_psPrintCpuInfo();
-#endif
 	OSVERSIONINFO verInfo;
 	verInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 	
