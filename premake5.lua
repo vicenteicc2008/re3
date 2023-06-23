@@ -386,6 +386,11 @@ project "re3"
 		includedirs { "vendor/libsndfile/include" }
 		includedirs { "vendor/mpg123/include" }
 
+	filter "platforms:win-arm*oal"
+		libdirs { "vendor/mpg123/lib/Win32" }
+		libdirs { "vendor/libsndfile/lib/Win32" }
+		libdirs { "vendor/openal-soft/libs/Win32" }
+
 	filter "platforms:win-x86*oal"
 		libdirs { "vendor/mpg123/lib/Win32" }
 		libdirs { "vendor/libsndfile/lib/Win32" }
