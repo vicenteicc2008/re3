@@ -450,6 +450,14 @@ project "re3"
 		includedirs { "sdk/dx8sdk/include" }
 		libdirs { "sdk/dx8sdk/lib" }
 
+	filter "platforms:*arm*d3d9*"
+		defines { "USE_D3D9" }
+		links { "d3d9" }
+
+	filter "platforms:*arm*d3d*"
+		includedirs { "sdk/dx8sdk/include" }
+		libdirs { "sdk/dx8sdk/lib" }
+
 	filter "platforms:win-x86*gl3_glfw*"
 		libdirs { path.join(_OPTIONS["glfwdir32"], "lib-" .. string.gsub(_ACTION or '', "vs", "vc")) }
 		links { "opengl32", "glfw3" }
