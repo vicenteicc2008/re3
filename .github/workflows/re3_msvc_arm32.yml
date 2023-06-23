@@ -15,7 +15,7 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        platform: [win-arm-librw_d3d9_oal]
+        platform: [win-arm-librw_d3d9-mss]
         buildtype: [Vanilla]
     steps:
     - name: Add msbuild to PATH
