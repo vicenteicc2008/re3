@@ -31,6 +31,7 @@
 
 #ifndef USE_D3D9
 #pragma comment( lib, "d3d8.lib" )
+#pragma comment( lib, "Xinput9_1_0.lib" )
 #endif
 #pragma comment( lib, "ddraw.lib" )
 #pragma comment( lib, "Winmm.lib" )
@@ -40,9 +41,6 @@
 
 #define WITHD3D
 #define WITHDINPUT
-#ifndef USE_D3D9
-#undef WITHXINPUT
-#endif
 #include "common.h"
 #if (defined(_MSC_VER))
 #include <tchar.h>
