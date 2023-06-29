@@ -41,7 +41,7 @@
 #define WITHD3D
 #define WITHDINPUT
 #ifndef USE_D3D9
-#define WITHXINPUT
+#undef WITHXINPUT
 #endif
 #include "common.h"
 #if (defined(_MSC_VER))
