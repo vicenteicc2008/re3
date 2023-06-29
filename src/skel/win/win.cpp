@@ -31,7 +31,6 @@
 
 #ifndef USE_D3D9
 #pragma comment( lib, "d3d8.lib" )
-#pragma comment( lib, "Xinput9_1_0.lib" )
 #endif
 #pragma comment( lib, "ddraw.lib" )
 #pragma comment( lib, "Winmm.lib" )
