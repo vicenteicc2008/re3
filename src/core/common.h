@@ -154,11 +154,11 @@ inline uint32 ldb(uint32 p, uint32 s, uint32 w)
 
 #if defined(PROPER_SCALING) || defined(PS2_HUD)
 	#ifdef FORCE_PC_SCALING
-		#define DEFAULT_SCREEN_WIDTH  (640)
-		#define DEFAULT_SCREEN_HEIGHT (448)
+		#define DEFAULT_SCREEN_WIDTH  (480)
+		#define DEFAULT_SCREEN_HEIGHT (800)
 	#else
-		#define DEFAULT_SCREEN_WIDTH  (640)
-		#define DEFAULT_SCREEN_HEIGHT (480)
+		#define DEFAULT_SCREEN_WIDTH  (480)
+		#define DEFAULT_SCREEN_HEIGHT (800)
 	#endif
 #elif defined(GTA_PS2)
 		#define DEFAULT_SCREEN_WIDTH  (640)
