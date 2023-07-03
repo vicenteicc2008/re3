@@ -453,6 +453,8 @@ project "re3"
 	filter "platforms:*arm*d3d9*"
 		defines { "USE_D3D9" }
 		links { "d3d9" }
+		includedirs { "vendor/libd3d9/include" }
+		libdirs { "vendor/libd3d9/lib" }
 
 	filter "platforms:*arm*d3d*"
 		includedirs { "sdk/dx8sdk/include" }
