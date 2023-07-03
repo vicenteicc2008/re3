@@ -163,7 +163,7 @@ workspace "re3"
 	filter { "platforms:*librw_d3d9*" }
 		defines { "RW_D3D9" }
 		if(not _OPTIONS["with-librw"]) then
-			libdirs { path.join(Librw, "lib/win-%{getarch(cfg.architecture)}-d3d9/%{cfg.buildcfg}") }
+			libdirs { path.join(Librw, "lib/d3d9.lib") }
 		end
 
 	filter "platforms:*librw_gl3_glfw*"
