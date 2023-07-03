@@ -9,7 +9,7 @@ newoption {
 	trigger     = "glfwdir32",
 	value       = "PATH",
 	description = "Directory of glfw",
-	default     = "vendor/glfw-3.3.2.bin.WIN32",
+	default     = "vendor/libglfw3",
 }
 
 newoption {
