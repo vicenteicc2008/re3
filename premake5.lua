@@ -164,6 +164,7 @@ workspace "re3"
 		defines { "RW_D3D9" }
 		if(not _OPTIONS["with-librw"]) then
 			libdirs { path.join(Librw, "vendor/libd3d9/lib") }
+	                libdirs { path.join(Librw, "vendor/lib/libwin81sdk") }
 		end
 
 	filter "platforms:*librw_gl3_glfw*"
