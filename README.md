@@ -194,3 +194,6 @@ We don't feel like we're in a position to give this code a license.\
 The code should only be used for educational, documentation and modding purposes.\
 We do not encourage piracy or commercial use.\
 Please keep derivate work open source and give proper credit.
+
+## credits
+take two interactive and rockstar for the game and the copyright (don't sue me since I need GTA 3 and GTA VC on Windows RT 8.1 (ARM32) to see how the performance goes with the little ram it has (1GB) and have GTA 3 and GTA VC on a micro sd)
