@@ -25,6 +25,7 @@
 
 #include <ddraw.h>
 #include <DShow.h>
+#include <Xinput.h>
 #pragma warning( pop )
 
 #define WM_GRAPHNOTIFY	WM_USER+13
@@ -519,89 +520,11 @@ DWORD GetDXVersion()
 	return dwDXVersion;
 }
 
-/*
- *****************************************************************************
- */
-#ifndef _WIN64
-static char cpuvendor[16] = "UnknownVendr";
-__declspec(naked)  const char * _psGetCpuVendr()
-{
-	__asm
-	{
-		push	ebx
-		xor		eax, eax
-		cpuid
-		mov		dword ptr [cpuvendor+0], ebx
-		mov		dword ptr [cpuvendor+4], edx
-		mov		dword ptr [cpuvendor+8], ecx
-		mov		eax, offset cpuvendor
-		pop		ebx
-		retn
-	}
-}
-
-/*
- *****************************************************************************
- */
-__declspec(naked) RwUInt32 _psGetCpuFeatures()
-{
-	__asm
-	{
-		mov		eax, 1
-		cpuid
-		mov		eax, edx
-		retn
-	}
-}
-
-/*
- *****************************************************************************
- */
-__declspec(naked) RwUInt32 _psGetCpuFeaturesEx()
-{
-	__asm
-	{
-		mov		eax, 80000000h
-		cpuid
-
-		cmp		eax, 80000000h
-		jbe		short _NOEX
-
-		mov		eax, 80000001h
-		cpuid
-
-		mov		eax, edx
-		jmp		short _RETEX
-
-_NOEX:
-		xor		eax, eax
-		mov		eax, eax
-		
-_RETEX:
-		retn   
-	}
-}
-
 #ifdef __MWERKS__
 #pragma dont_inline on
 #endif
-void _psPrintCpuInfo()
-{
-	RwUInt32 features	= _psGetCpuFeatures();
-	RwUInt32 FeaturesEx = _psGetCpuFeaturesEx();
-
-	debug("Running on a %s", _psGetCpuVendr());
-
-	if ( features & 0x800000 )
-		debug("with MMX");
-	if ( features & 0x2000000 )
-		debug("with SSE");
-	if ( FeaturesEx & 0x80000000 )
-		debug("with 3DNow");
-}
 #ifdef __MWERKS__
 #pragma dont_inline off
-#endif
 #endif
 
 /*
@@ -674,9 +597,6 @@ psInitialize(void)
 	
 	gGameState = GS_START_UP;
 	TRACE("gGameState = GS_START_UP");
-#ifndef _WIN64
-	_psPrintCpuInfo();
-#endif
 	OSVERSIONINFO verInfo;
 	verInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 	
@@ -2649,10 +2569,14 @@ HRESULT _InputInitialise()
 {
 	HRESULT hr;
 
-	// Create a DInput object
-	if( FAILED( hr = DirectInput8Create( GetModuleHandle(nil), DIRECTINPUT_VERSION, 
-										IID_IDirectInput8, (VOID**)&PSGLOBAL(dinterface), nil ) ) )
-		return hr;
+	// Crear un objeto de XInput
+	DWORD dwUserIndex = 0; // Índice del controlador de juegos
+	XINPUT_STATE xinputObject;
+
+	// Obtener el estado del controlador de juegos
+	DWORD result = XInputGetState(dwUserIndex, &xinputObject);
+	if (result != ERROR_SUCCESS)
+		return HRESULT_FROM_WIN32(result);
 		
 	return S_OK;
 }
@@ -2661,9 +2585,13 @@ HRESULT _InputInitialiseMouse(bool exclusive)
 {
 	HRESULT hr;
 
-	// Obtain an interface to the system mouse device.
-	if( FAILED( hr = PSGLOBAL(dinterface)->CreateDevice( GUID_SysMouse, &PSGLOBAL(mouse), nil ) ) )
-		return hr;
+	DWORD dwUserIndex = 0; // Índice del controlador de juegos
+	XINPUT_CAPABILITIES capabilities;
+
+	// Obtener las capacidades del controlador de juegos
+	DWORD result = XInputGetCapabilities(dwUserIndex, XINPUT_FLAG_GAMEPAD, &capabilities);
+	if (result != ERROR_SUCCESS)
+		return HRESULT_FROM_WIN32(result);
 	
 	// Set the data format to "mouse format" - a predefined data format 
 	//
@@ -2672,8 +2600,14 @@ HRESULT _InputInitialiseMouse(bool exclusive)
 	//
 	// This tells DirectInput that we will be passing a
 	// DIMOUSESTATE2 structure to IDirectInputDevice::GetDeviceState.
-	if( FAILED( hr = PSGLOBAL(mouse)->SetDataFormat( &c_dfDIMouse2 ) ) )
+	if (result == ERROR_SUCCESS)
+	{
+		// Acceder a los datos del mouse en 'state' (por ejemplo, state.Gamepad)
+	}
+	else
+	{
 		return hr;
+	}
 	
 	if( FAILED( hr = PSGLOBAL(mouse)->SetCooperativeLevel( PSGLOBAL(window), (exclusive ? DISCL_EXCLUSIVE : DISCL_NONEXCLUSIVE) | DISCL_FOREGROUND ) ) )
 		return hr;
@@ -3008,8 +2942,11 @@ BOOL CALLBACK _InputEnumDevicesCallback( const DIDEVICEINSTANCE* pdidInstance, V
 	if( hr != S_OK )
 		return DIENUM_CONTINUE;
 
-	hr = (*pJoystick)->SetDataFormat( &c_dfDIJoystick2 );
-	if( hr != S_OK )
+	DWORD dwUserIndex = 0; // Índice del controlador de juegos
+	XINPUT_STATE state;
+
+	DWORD result = XInputGetState(dwUserIndex, &state);
+	if (result == ERROR_SUCCESS)
 	{
 		(*pJoystick)->Release();
 		return DIENUM_CONTINUE;

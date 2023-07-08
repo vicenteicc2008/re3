@@ -92,6 +92,7 @@ workspace "reVC"
 			"win-x86-librw_gl3_glfw-oal",
 			"win-amd64-librw_d3d9-oal",
 			"win-amd64-librw_gl3_glfw-oal",
+	                "win-arm-librw_d3d9_oal",
 		}
 
 	filter { "system:linux" }
@@ -162,7 +163,7 @@ workspace "reVC"
 	filter { "platforms:*librw_d3d9*" }
 		defines { "RW_D3D9" }
 		if(not _OPTIONS["with-librw"]) then
-			libdirs { path.join(Librw, "lib/win-%{getarch(cfg.architecture)}-d3d9/%{cfg.buildcfg}") }
+			libdirs { path.join(Librw, "vendor/libd3d9/lib") }
 		end
 
 	filter "platforms:*librw_gl3_glfw*"
@@ -385,6 +386,11 @@ project "reVC"
 		includedirs { "vendor/libsndfile/include" }
 		includedirs { "vendor/mpg123/include" }
 
+	filter "platforms:win-arm*oal"
+		libdirs { "vendor/mpg123/lib/Win32" }
+		libdirs { "vendor/libsndfile/lib/Win32" }
+		libdirs { "vendor/openal-soft/libs/Win32" }
+
 	filter "platforms:win-x86*oal"
 		libdirs { "vendor/mpg123/lib/Win32" }
 		libdirs { "vendor/libsndfile/lib/Win32" }
@@ -439,6 +445,16 @@ project "reVC"
 	filter "platforms:*d3d9*"
 		defines { "USE_D3D9" }
 		links { "d3d9" }
+
+	filter "platforms:*arm*d3d9*"
+		defines { "USE_D3D9" }
+		links { "d3d9" }
+		includedirs { "vendor/libd3d9/include" }
+		libdirs { "vendor/libd3d9/lib" }
+
+	filter "platforms:*arm*d3d*"
+		includedirs { "sdk/dx8sdk/include" }
+		libdirs { "sdk/dx8sdk/lib" }
 
 	filter "platforms:*x86*d3d*"
 		includedirs { "sdk/dx8sdk/include" }

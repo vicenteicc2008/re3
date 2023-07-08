@@ -153,18 +153,18 @@ inline uint32 ldb(uint32 p, uint32 s, uint32 w)
 
 #if defined(PROPER_SCALING)
 	#ifdef FORCE_PC_SCALING
-		#define DEFAULT_SCREEN_WIDTH  (640)
-		#define DEFAULT_SCREEN_HEIGHT (448)
+		#define DEFAULT_SCREEN_WIDTH  (800)
+		#define DEFAULT_SCREEN_HEIGHT (480)
 	#else
-		#define DEFAULT_SCREEN_WIDTH  (640)
+		#define DEFAULT_SCREEN_WIDTH  (800)
 		#define DEFAULT_SCREEN_HEIGHT (480)
 	#endif
 #elif defined(GTA_PS2)
 		#define DEFAULT_SCREEN_WIDTH  (640)
 		#define DEFAULT_SCREEN_HEIGHT (480)
 #else //elif defined(GTA_PC)
-		#define DEFAULT_SCREEN_WIDTH  (640)
-		#define DEFAULT_SCREEN_HEIGHT (448)
+		#define DEFAULT_SCREEN_WIDTH  (800)
+		#define DEFAULT_SCREEN_HEIGHT (480)
 #endif
 
 #define DEFAULT_ASPECT_RATIO (4.0f/3.0f)
